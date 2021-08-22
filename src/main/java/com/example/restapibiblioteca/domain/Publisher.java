@@ -11,6 +11,15 @@ public class Publisher extends AbstractEntity{
     @OneToMany(mappedBy = "publisher")
     private List<Book> books;
 
+    public Publisher(String name) {
+        this.name = name;
+        this.books = List.of();
+    }
+
+    public Publisher(long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }

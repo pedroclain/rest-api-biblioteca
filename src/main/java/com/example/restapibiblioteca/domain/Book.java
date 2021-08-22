@@ -21,6 +21,16 @@ public class Book extends AbstractEntity{
     private Publisher publisher;
     private LocalDate publishDate;
 
+    public Book(String name, Autor autor, Gender gender, Publisher publisher, LocalDate publishDate) {
+        this.name = name;
+        this.autor = autor;
+        this.gender = gender;
+        this.publisher = publisher;
+        this.publishDate = publishDate;
+    }
+
+    public Book() {}
+
     public String getName() {
         return name;
     }

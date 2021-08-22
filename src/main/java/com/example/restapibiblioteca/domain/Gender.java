@@ -16,6 +16,10 @@ public class Gender extends AbstractEntity{
         this.books = List.of();
     }
 
+    public Gender(long id) {
+        this.id = id;
+    }
+
     public Gender() {
     }
 

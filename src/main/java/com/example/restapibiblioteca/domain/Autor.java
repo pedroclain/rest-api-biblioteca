@@ -13,6 +13,18 @@ public class Autor extends AbstractEntity {
     @OneToMany(mappedBy = "autor")
     private List<Book> bookList;
 
+    public Autor(String name) {
+        this.name = name;
+        this.bookList = List.of();
+    }
+
+    public Autor(long id) {
+        this.id = id;
+    }
+
+    public Autor() {
+    }
+
     public String getName() {
         return name;
     }

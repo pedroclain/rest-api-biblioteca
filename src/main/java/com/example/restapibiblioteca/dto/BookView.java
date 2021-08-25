@@ -2,27 +2,44 @@ package com.example.restapibiblioteca.dto;
 
 import com.example.restapibiblioteca.domain.Book;
 
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
-public class BookView {
+public class BookView implements Serializable {
 
     private Long id;
     private String name;
-    private String autor;
-    private String gender;
-    private String publisher;
+    private String autorName;
+    private String genderName;
+    private String publisherName;
     private LocalDate publishDate;
+
 
     public BookView(Book book) {
         this.id = book.getId();
         this.name = book.getName();
-        this.autor = book.getAutor().getName();
-        this.gender = book.getGender().getName();
-        this.publisher = book.getPublisher().getName();
+        this.autorName = book.getAutor().getName();
+        this.genderName = book.getGender().getName();
+        this.publisherName = book.getPublisher().getName();
         this.publishDate = book.getPublishDate();
     }
 
-    public BookView() {}
+    public BookView(){}
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookView that = (BookView) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 
     public Long getId() {
         return id;
@@ -40,28 +57,28 @@ public class BookView {
         this.name = name;
     }
 
-    public String getAutor() {
-        return autor;
+    public String getAutorName() {
+        return autorName;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setAutorName(String autorName) {
+        this.autorName = autorName;
     }
 
-    public String getGender() {
-        return gender;
+    public String getGenderName() {
+        return genderName;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setGenderName(String genderName) {
+        this.genderName = genderName;
     }
 
-    public String getPublisher() {
-        return publisher;
+    public String getPublisherName() {
+        return publisherName;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
     }
 
     public LocalDate getPublishDate() {

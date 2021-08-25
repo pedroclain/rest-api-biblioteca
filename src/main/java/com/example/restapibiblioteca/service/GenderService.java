@@ -1,10 +1,8 @@
 package com.example.restapibiblioteca.service;
 
-import com.example.restapibiblioteca.domain.Book;
 import com.example.restapibiblioteca.domain.Gender;
 import com.example.restapibiblioteca.dto.GenderRequestCreate;
 import com.example.restapibiblioteca.dto.GenderRequestUpdate;
-import com.example.restapibiblioteca.dto.GenderView;
 import com.example.restapibiblioteca.exception.ResourceNotFound;
 import com.example.restapibiblioteca.repository.GenderRepository;
 import org.springframework.data.domain.Page;
@@ -12,10 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class GenderService {
@@ -26,12 +21,12 @@ public class GenderService {
         this.repository = repository;
     }
 
-    public GenderView findByName(String name) {
-        return new GenderView(find(name));
+    public Gender findByName(String name) {
+        return find(name);
     }
 
-    public GenderView findById(long id) {
-        return new GenderView(find(id));
+    public Gender findById(long id) {
+        return find(id);
     }
 
     private Gender find(long id) {
@@ -49,22 +44,21 @@ public class GenderService {
         repository.delete(find(id));
     }
 
-    public GenderView save(GenderRequestCreate genderRequest) {
-        return new GenderView(repository.save(genderRequest.getGender()));
+    public Gender save(GenderRequestCreate genderRequest) {
+        return repository.save(genderRequest.getGender());
     }
 
     @Transactional
-    public GenderView update(GenderRequestUpdate genderRequest) {
+    public Gender update(GenderRequestUpdate genderRequest) {
         delete(genderRequest.getId());
-        return new GenderView(repository.save(genderRequest.getGender()));
+        return repository.save(genderRequest.getGender());
     }
 
-    public List<GenderView> list() {
-        return repository.findAll().stream().map(GenderView::new).collect(Collectors.toList());
+    public List<Gender> listAll() {
+        return repository.findAll();
     }
 
-    public List<GenderView> list(Pageable pageable) {
-        return repository.findAll(pageable).get().map(GenderView::new)
-                .collect(Collectors.toList());
+    public Page<Gender> list(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 }

@@ -4,14 +4,47 @@ import javax.persistence.*;
 
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
-public class Autor extends AbstractEntity {
+public class Autor {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String name;
 
     @OneToMany(mappedBy = "autor")
-    private List<Book> bookList;
+    private List<Book> books;
+
+    public Autor(String name) {
+        this.name = name;
+        this.books = List.of();
+    }
+
+    public Autor() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Autor autor = (Autor) o;
+        return id == autor.id && Objects.equals(name, autor.name) && Objects.equals(books, autor.books);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, books);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public Autor(String name) {
         this.name = name;
@@ -33,11 +66,11 @@ public class Autor extends AbstractEntity {
         this.name = name;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
+    public List<Book> getBooks() {
+        return books;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
+    public void setBooks(List<Book> bookList) {
+        this.books = bookList;
     }
 }

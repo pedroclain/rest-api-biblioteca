@@ -1,31 +1,31 @@
 package com.example.restapibiblioteca.dto;
 
 import com.example.restapibiblioteca.domain.Book;
-import com.example.restapibiblioteca.domain.Gender;
+import com.example.restapibiblioteca.domain.Publisher;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class GenderView {
+public class PublisherView {
 
     private Long id;
     private String name;
     private List<String> booksNames;
 
-    public GenderView(Gender gender) {
-        this.id = gender.getId();
-        this.name = gender.getName();
-        this.booksNames = gender.getBooks().stream().map(Book::getName).collect(Collectors.toList());
+    public PublisherView(Publisher publisher) {
+        this.id = publisher.getId();
+        this.name = publisher.getName();
+        this.booksNames = publisher.getBooks().stream().map(Book::getName).collect(Collectors.toList());
     }
 
-    public GenderView(){}
+    public PublisherView(){}
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GenderView that = (GenderView) o;
+        PublisherView that = (PublisherView) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(booksNames, that.booksNames);
     }
 

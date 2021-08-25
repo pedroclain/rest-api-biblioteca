@@ -1,9 +1,6 @@
 package com.example.restapibiblioteca.dto;
 
-import com.example.restapibiblioteca.domain.Autor;
 import com.example.restapibiblioteca.domain.Book;
-import com.example.restapibiblioteca.domain.Gender;
-import com.example.restapibiblioteca.domain.Publisher;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -16,12 +13,11 @@ public class BookRequestCreate implements Serializable {
     private long publisherId;
     private LocalDate publishDate;
 
-    public Book getBook() {
-        return new Book(name, new Autor(autorId),
-                new Gender(genderId),
-                new Publisher(publisherId),
-                publishDate);
+    public BookRequestCreate(String name) {
+        this.name = name;
     }
+
+    public BookRequestCreate(){}
 
     public String getName() {
         return name;

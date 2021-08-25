@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
         logger.error("handleValidationException{}\n", request.getRequestURI(), ex);
 
         return ResponseEntity
-                .badRequest()
+                .status(HttpStatus.BAD_REQUEST)
                 .body(new ExceptionDetails<>("Validation exception", List.of(ex.getMessage())));
     }
 
@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
         logger.error("handleMissingServletRequestParameterException {}\n", request.getRequestURI(), ex);
 
         return ResponseEntity
-                .badRequest()
+                .status(HttpStatus.BAD_REQUEST)
                 .body(new ExceptionDetails<>("Missing request parameter", List.of(ex.getMessage())));
     }
     @ExceptionHandler(Exception.class)

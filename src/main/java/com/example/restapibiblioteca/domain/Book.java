@@ -1,13 +1,15 @@
 package com.example.restapibiblioteca.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
-public class Book extends AbstractEntity{
+public class Book {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected long id;
     private String name;
 
     @ManyToOne
@@ -30,6 +32,27 @@ public class Book extends AbstractEntity{
     }
 
     public Book() {}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id == book.id && Objects.equals(name, book.name) && Objects.equals(autor, book.autor) && Objects.equals(gender, book.gender) && Objects.equals(publisher, book.publisher) && Objects.equals(publishDate, book.publishDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, autor, gender, publisher, publishDate);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

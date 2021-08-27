@@ -1,26 +1,30 @@
 package com.example.restapibiblioteca.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 public class Book {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
+
     private String name;
 
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne @JoinColumn
     private Autor autor;
-    @ManyToOne
-    @JoinColumn
+
+    @ManyToOne @JoinColumn
     private Gender gender;
-    @ManyToOne
-    @JoinColumn
+
+    @ManyToOne @JoinColumn
     private Publisher publisher;
+
     private LocalDate publishDate;
 
     public Book(String name, Autor autor, Gender gender, Publisher publisher, LocalDate publishDate) {

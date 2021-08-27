@@ -1,8 +1,6 @@
 package com.example.restapibiblioteca.domain;
 
 import javax.persistence.*;
-
-
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +18,10 @@ public class Autor {
     public Autor(String name) {
         this.name = name;
         this.books = List.of();
+    }
+
+    public Autor(long id) {
+        this.id = id;
     }
 
     public Autor() {
@@ -44,18 +46,6 @@ public class Autor {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public Autor(String name) {
-        this.name = name;
-        this.bookList = List.of();
-    }
-
-    public Autor(long id) {
-        this.id = id;
-    }
-
-    public Autor() {
     }
 
     public String getName() {

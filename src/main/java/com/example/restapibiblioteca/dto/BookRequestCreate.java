@@ -1,16 +1,30 @@
 package com.example.restapibiblioteca.dto;
 
-import com.example.restapibiblioteca.domain.Book;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 
 public class BookRequestCreate implements Serializable {
 
+    @NotEmpty(message = "The name can't be empty")
+    @NotNull(message = "The name can't be null")
+    @Size(min = 2, message = "The name needs at least two characters")
     private String name;
-    private long autorId;
-    private long genderId;
-    private long publisherId;
+
+    @NotNull(message = "The autor id can't be null")
+    private Long autorId;
+
+    @NotNull(message = "The gender id can't be null")
+    private Long genderId;
+
+    @NotNull(message = "The publisher id can't be null")
+    private Long publisherId;
+
+    @NotNull(message = "The publish date can't be null")
     private LocalDate publishDate;
 
     public BookRequestCreate(String name) {

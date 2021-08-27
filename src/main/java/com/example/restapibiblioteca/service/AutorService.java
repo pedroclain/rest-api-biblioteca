@@ -31,12 +31,12 @@ public class AutorService {
 
     private Autor find(long id) {
         return repository.findById(id).orElseThrow(() ->
-                new ResourceNotFound("Autor with id "+id+" not found"));
+                new ResourceNotFound(String.format("Autor with id %d not found", id)));
     }
 
     private Autor find(String name) {
         return repository.findByName(name).orElseThrow(() ->
-                new ResourceNotFound("Autor "+name+" not found"));
+                new ResourceNotFound(String.format("Autor %s not found", name)));
     }
 
     @Transactional

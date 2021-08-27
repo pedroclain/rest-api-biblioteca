@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,12 +51,12 @@ public class AutorEndpoint{
 
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody AutorRequestCreate autorRequest) {
+    public ResponseEntity<?> save(@RequestBody @Valid AutorRequestCreate autorRequest) {
         return new ResponseEntity<>(new AutorView(service.save(autorRequest)), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody AutorRequestUpdate autorRequest) {
+    public ResponseEntity<?> update(@RequestBody @Valid AutorRequestUpdate autorRequest) {
         return new ResponseEntity<>(new AutorView(service.update(autorRequest)), HttpStatus.OK);
     }
     @DeleteMapping("{id}")

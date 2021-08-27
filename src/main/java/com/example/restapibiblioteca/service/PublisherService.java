@@ -31,12 +31,12 @@ public class PublisherService {
 
     private Publisher find(long id) {
         return repository.findById(id).orElseThrow(() ->
-                new ResourceNotFound("Publisher with id "+id+" not found"));
+                new ResourceNotFound(String.format("Publisher with id %d not found", id)));
     }
 
     private Publisher find(String name) {
         return repository.findByName(name).orElseThrow(() ->
-                new ResourceNotFound("Publisher "+name+" not found"));
+                new ResourceNotFound(String.format("Publisher %s not found", name)));
     }
 
     @Transactional

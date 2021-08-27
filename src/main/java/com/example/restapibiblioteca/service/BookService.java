@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,27 +33,30 @@ public class BookService {
         this.publisherService = publisherService;
     }
 
-    public Book findByName(String name) {
-        return find(name);
+    public Page<Book> findByName(String name, Pageable pageable) {
+        return repository.findByName(name, pageable);
+    }
+
+    public Page<Book> findByGender(String genderName, Pageable pageable) {
+        return repository.findByGenderName(genderName, pageable);
+    }
+
+    public Page<Book> findByAutor(String autorName, Pageable pageable) {
+        return repository.findByAutorName(autorName, pageable);
+    }
+
+    public Page<Book> findByPublisher(String publisherName, Pageable pageable) {
+        return repository.findByPublisherName(publisherName, pageable);
     }
 
     public Book findById(long id) {
-        return find(id);
-    }
-
-    private Book find(long id) {
         return repository.findById(id).orElseThrow(() ->
-                new ResourceNotFound("Book with id "+id+" not found"));
-    }
-
-    private Book find(String name) {
-        return repository.findByName(name).orElseThrow(() ->
-                new ResourceNotFound("Book "+name+" not found"));
+                new ResourceNotFound(String.format("Book with id %d not found", id)));
     }
 
     @Transactional
     public void delete(long id) {
-        repository.delete(find(id));
+        repository.delete(findById(id));
     }
 
     @Transactional
@@ -65,8 +70,8 @@ public class BookService {
         return repository.save(convertBookRequestUpdateToBook(bookRequest));
     }
 
-    public List<Book> listAll() {
-        return repository.findAll();
+    public Page<Book> listAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Page<Book> list(Pageable pageable) {
@@ -78,7 +83,7 @@ public class BookService {
     }
 
     private Book convertBookRequestUpdateToBook(BookRequestUpdate requestUpdate) {
-        return getBook(requestUpdate.getName(), requestUpdate.getAutorId(), requestUpdate.getGenderId(), requestUpdate.getPubisherId(), requestUpdate.getPublishDate());
+        return getBook(requestUpdate.getName(), requestUpdate.getAutorId(), requestUpdate.getGenderId(), requestUpdate.getPublisherId(), requestUpdate.getPublishDate());
     }
 
     private Book getBook(String name, long autorId, long genderId, long pubisherId, LocalDate publishDate) {

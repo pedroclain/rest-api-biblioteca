@@ -31,12 +31,12 @@ public class GenderService {
 
     private Gender find(long id) {
         return repository.findById(id).orElseThrow(() ->
-                new ResourceNotFound("Gender with id "+id+" not found"));
+                new ResourceNotFound(String.format("Gender with id %d not found", id)));
     }
 
     private Gender find(String name) {
         return repository.findByName(name).orElseThrow(() ->
-                new ResourceNotFound("Gender "+name+" not found"));
+                new ResourceNotFound(String.format("Gender %s not found", name)));
     }
 
     @Transactional

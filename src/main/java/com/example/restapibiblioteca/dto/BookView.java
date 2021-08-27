@@ -4,6 +4,7 @@ import com.example.restapibiblioteca.domain.Book;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 
 public class BookView implements Serializable {

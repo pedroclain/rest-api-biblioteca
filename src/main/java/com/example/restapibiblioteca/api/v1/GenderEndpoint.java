@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,12 +51,12 @@ public class GenderEndpoint{
 
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody GenderRequestCreate genderRequest) {
+    public ResponseEntity<?> save(@RequestBody @Valid GenderRequestCreate genderRequest) {
         return new ResponseEntity<>(new GenderView(service.save(genderRequest)), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody GenderRequestUpdate genderRequest) {
+    public ResponseEntity<?> update(@RequestBody @Valid GenderRequestUpdate genderRequest) {
         return new ResponseEntity<>(new GenderView(service.update(genderRequest)), HttpStatus.OK);
     }
     @DeleteMapping("{id}")

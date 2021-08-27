@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,12 +51,12 @@ public class PublisherEndpoint{
 
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody PublisherRequestCreate publisherRequest) {
+    public ResponseEntity<?> save(@RequestBody @Valid PublisherRequestCreate publisherRequest) {
         return new ResponseEntity<>(new PublisherView(service.save(publisherRequest)), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody PublisherRequestUpdate publisherRequest) {
+    public ResponseEntity<?> update(@RequestBody @Valid PublisherRequestUpdate publisherRequest) {
         return new ResponseEntity<>(new PublisherView(service.update(publisherRequest)), HttpStatus.OK);
     }
     @DeleteMapping("{id}")

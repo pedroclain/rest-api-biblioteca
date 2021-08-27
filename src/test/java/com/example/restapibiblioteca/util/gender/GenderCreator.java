@@ -15,9 +15,6 @@ public class GenderCreator {
     public static Gender createdGender() {
         Gender gender = new Gender("gender");
         gender.setId(1L);
-        Book book = new Book();
-        book.setName("book");
-        gender.setBooks(List.of(book));
         return gender;
     }
 

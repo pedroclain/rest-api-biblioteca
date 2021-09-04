@@ -1,8 +1,11 @@
 package com.example.restapibiblioteca.exception.handler;
 
+import io.swagger.annotations.ExampleProperty;
+
+import java.io.Serializable;
 import java.util.List;
 
-public class ExceptionDetails<T> {
+public class ExceptionDetails<T> implements Serializable {
     private String message;
     private List<T> details;
 

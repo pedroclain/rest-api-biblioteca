@@ -1,22 +1,17 @@
 package com.example.restapibiblioteca.service;
 
 import com.example.restapibiblioteca.domain.Book;
-import com.example.restapibiblioteca.dto.BookRequestCreate;
-import com.example.restapibiblioteca.dto.BookRequestUpdate;
-import com.example.restapibiblioteca.dto.BookView;
+import com.example.restapibiblioteca.dto.request.BookRequestCreate;
+import com.example.restapibiblioteca.dto.request.BookRequestUpdate;
 import com.example.restapibiblioteca.exception.ResourceNotFound;
 import com.example.restapibiblioteca.repository.BookRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -31,6 +26,14 @@ public class BookService {
         this.autorService = autorService;
         this.genderService = genderService;
         this.publisherService = publisherService;
+    }
+
+    public List<Book> listAll() {
+        return repository.findAll();
+    }
+
+    public Page<Book> list(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Page<Book> findByName(String name, Pageable pageable) {
@@ -54,10 +57,13 @@ public class BookService {
                 new ResourceNotFound(String.format("Book with id %d not found", id)));
     }
 
-    @Transactional
     public void delete(long id) {
-        repository.delete(findById(id));
+        repository.delete(id);
     }
+
+//    public void deleteAllDisableBooks() {
+//        repository.deleteAllDisableBooks();
+//    }
 
     @Transactional
     public Book save(BookRequestCreate bookRequest) {
@@ -65,29 +71,24 @@ public class BookService {
     }
 
     @Transactional
-    public Book update(BookRequestUpdate bookRequest) {
-        delete(bookRequest.getId());
-        return repository.save(convertBookRequestUpdateToBook(bookRequest));
-    }
-
-    public Page<Book> listAll(Pageable pageable) {
-        return repository.findAll(pageable);
-    }
-
-    public Page<Book> list(Pageable pageable) {
-        return repository.findAll(pageable);
+    public void update(BookRequestUpdate bookRequest) {
+        Book book = convertBookRequestUpdateToBook(bookRequest);
+        System.out.println(book.getName());
+        repository.update(book.getId(), book.getName(), book.getGender(),
+                book.getAutor(), book.getPublisher(), book.getPublishDate());
     }
 
     private Book convertBookRequestCreateToBook(BookRequestCreate requestCreate) {
-        return getBook(requestCreate.getName(), requestCreate.getAutorId(), requestCreate.getGenderId(), requestCreate.getPublisherId(), requestCreate.getPublishDate());
+        return toBook(0L, requestCreate.getName(), requestCreate.getAutorId(), requestCreate.getGenderId(), requestCreate.getPublisherId(), requestCreate.getPublishDate());
     }
 
     private Book convertBookRequestUpdateToBook(BookRequestUpdate requestUpdate) {
-        return getBook(requestUpdate.getName(), requestUpdate.getAutorId(), requestUpdate.getGenderId(), requestUpdate.getPublisherId(), requestUpdate.getPublishDate());
+        return toBook(requestUpdate.getId(), requestUpdate.getName(), requestUpdate.getAutorId(), requestUpdate.getGenderId(), requestUpdate.getPublisherId(), requestUpdate.getPublishDate());
     }
 
-    private Book getBook(String name, long autorId, long genderId, long pubisherId, LocalDate publishDate) {
+    private Book toBook(Long id, String name, long autorId, long genderId, long pubisherId, LocalDate publishDate) {
         Book book = new Book();
+        book.setId(id);
         book.setName(name);
         book.setAutor(autorService.findById(autorId));
         book.setGender(genderService.findById(genderId));

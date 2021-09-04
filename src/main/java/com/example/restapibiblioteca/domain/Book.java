@@ -12,7 +12,9 @@ import java.util.Objects;
 public class Book {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    private long id;
+
+    private boolean deleted = false;
 
     private String name;
 
@@ -96,5 +98,13 @@ public class Book {
 
     public void setPublishDate(LocalDate publishDate) {
         this.publishDate = publishDate;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

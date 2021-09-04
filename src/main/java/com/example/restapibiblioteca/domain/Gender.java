@@ -9,7 +9,8 @@ public class Gender{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    private long id;
+    private boolean deleted = false;
     private String name;
     @OneToMany(mappedBy = "gender")
     private List<Book> books;
@@ -61,5 +62,13 @@ public class Gender{
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

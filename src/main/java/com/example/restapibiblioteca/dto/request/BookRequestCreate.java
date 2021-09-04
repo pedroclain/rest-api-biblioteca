@@ -1,6 +1,5 @@
-package com.example.restapibiblioteca.dto;
+package com.example.restapibiblioteca.dto.request;
 
-import com.example.restapibiblioteca.domain.Book;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -9,39 +8,29 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 
-public class BookRequestUpdate implements Serializable {
+public class BookRequestCreate implements Serializable {
 
-    @NotEmpty(message = "Id can't be empty")
-    @NotNull(message = "Id can't be null")
-    private long id;
     @NotEmpty(message = "The name can't be empty")
     @NotNull(message = "The name can't be null")
     @Size(min = 2, message = "The name needs at least two characters")
     private String name;
-    @NotEmpty(message = "The autor id can't be empty")
+
     @NotNull(message = "The autor id can't be null")
-    private long autorId;
-    @NotEmpty(message = "The gender id can't be empty")
+    private Long autorId;
+
     @NotNull(message = "The gender id can't be null")
-    private long genderId;
-    @NotEmpty(message = "The publisher id can't be empty")
+    private Long genderId;
+
     @NotNull(message = "The publisher id can't be null")
-    private long publisherId;
-    @NotEmpty(message = "The publish date can't be empty")
-    @NotNull(message = "The publish date can't be null")
+    private Long publisherId;
+
     private LocalDate publishDate;
 
-
-
-    public BookRequestUpdate(){}
-
-    public long getId() {
-        return id;
+    public BookRequestCreate(String name) {
+        this.name = name;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public BookRequestCreate(){}
 
     public String getName() {
         return name;
@@ -71,8 +60,8 @@ public class BookRequestUpdate implements Serializable {
         return publisherId;
     }
 
-    public void setPublisherId(long pubisherId) {
-        this.publisherId = pubisherId;
+    public void setPublisherId(long publisherId) {
+        this.publisherId = publisherId;
     }
 
     public LocalDate getPublishDate() {

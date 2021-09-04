@@ -1,9 +1,10 @@
 package com.example.restapibiblioteca.service;
 
 import com.example.restapibiblioteca.domain.Publisher;
-import com.example.restapibiblioteca.dto.PublisherRequestCreate;
-import com.example.restapibiblioteca.dto.PublisherRequestUpdate;
+import com.example.restapibiblioteca.dto.request.PublisherRequestCreate;
+import com.example.restapibiblioteca.dto.request.PublisherRequestUpdate;
 import com.example.restapibiblioteca.exception.ResourceNotFound;
+import com.example.restapibiblioteca.repository.BookRepository;
 import com.example.restapibiblioteca.repository.PublisherRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,50 +16,52 @@ import java.util.List;
 @Service
 public class PublisherService {
 
-    private final PublisherRepository repository;
+    private final PublisherRepository publisherRepository;
+    private final BookRepository bookRepository;
 
-    public PublisherService(PublisherRepository repository) {
-        this.repository = repository;
+    public PublisherService(PublisherRepository publisherRepository, BookRepository bookRepository) {
+        this.publisherRepository = publisherRepository;
+        this.bookRepository = bookRepository;
     }
 
-    public Publisher findByName(String name) {
-        return find(name);
+    public List<Publisher> listAll() {
+        return publisherRepository.findAll();
     }
+
+    public Page<Publisher> list(Pageable pageable) {
+        return publisherRepository.findAll(pageable);
+    }
+
+    public Page<Publisher> findByName(String name, Pageable pageable) {
+        return publisherRepository.findByName(name, pageable);
+    }
+
 
     public Publisher findById(long id) {
-        return find(id);
-    }
-
-    private Publisher find(long id) {
-        return repository.findById(id).orElseThrow(() ->
+        return publisherRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFound(String.format("Publisher with id %d not found", id)));
     }
-
-    private Publisher find(String name) {
-        return repository.findByName(name).orElseThrow(() ->
-                new ResourceNotFound(String.format("Publisher %s not found", name)));
-    }
-
     @Transactional
     public void delete(long id) {
-        repository.delete(find(id));
+        bookRepository.deleteAllBooksRelatedToPublisher(id);
+        publisherRepository.delete(id);
     }
 
+//    @Transactional
+//    public void deleteAllDisablePublisher() {
+//        List<Publisher> disableList = publisherRepository.findAllDisablePublisher();
+//        disableList.forEach((p) ->
+//                bookRepository.deleteAllDisableBooksRelatedToPublisher(p.getId()));
+//        publisherRepository.deleteAllDisablePublisher();
+//    }
+
     public Publisher save(PublisherRequestCreate genderRequest) {
-        return repository.save(genderRequest.getPublisher());
+        return publisherRepository.save(genderRequest.getPublisher());
     }
 
     @Transactional
     public Publisher update(PublisherRequestUpdate genderRequest) {
         delete(genderRequest.getId());
-        return repository.save(genderRequest.getPublisher());
-    }
-
-    public List<Publisher> listAll() {
-        return repository.findAll();
-    }
-
-    public Page<Publisher> list(Pageable pageable) {
-        return repository.findAll(pageable);
+        return publisherRepository.save(genderRequest.getPublisher());
     }
 }

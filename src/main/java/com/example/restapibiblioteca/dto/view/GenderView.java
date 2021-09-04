@@ -1,22 +1,26 @@
-package com.example.restapibiblioteca.dto;
+package com.example.restapibiblioteca.dto.view;
 
 import com.example.restapibiblioteca.domain.Book;
 import com.example.restapibiblioteca.domain.Gender;
+import com.example.restapibiblioteca.dto.inner.InnerBook;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class GenderView {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class GenderView implements Serializable {
 
     private Long id;
     private String name;
-    private List<String> booksNames;
+    private List<InnerBook> books;
 
     public GenderView(Gender gender) {
         this.id = gender.getId();
         this.name = gender.getName();
-        this.booksNames = gender.getBooks().stream().map(Book::getName).collect(Collectors.toList());
+        this.books = gender.getBooks().stream().map(InnerBook::new).collect(Collectors.toList());
     }
 
     public GenderView(){}
@@ -26,12 +30,12 @@ public class GenderView {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         GenderView that = (GenderView) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(booksNames, that.booksNames);
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(books, that.books);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, booksNames);
+        return Objects.hash(id, name, books);
     }
 
     public String getName() {
@@ -42,12 +46,12 @@ public class GenderView {
         this.name = name;
     }
 
-    public List<String> getBooksNames() {
-        return booksNames;
+    public List<InnerBook> getBooks() {
+        return books;
     }
 
-    public void setBooksNames(List<String> booksNames) {
-        this.booksNames = booksNames;
+    public void setBooks(List<InnerBook> books) {
+        this.books = books;
     }
 
     public Long getId() {

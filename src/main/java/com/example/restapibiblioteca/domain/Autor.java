@@ -10,14 +10,14 @@ public class Autor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private boolean deleted = false;
     private String name;
 
     @OneToMany(mappedBy = "autor")
-    private List<Book> books;
+    private List<Book> books = List.of();
 
     public Autor(String name) {
         this.name = name;
-        this.books = List.of();
     }
 
     public Autor(long id) {
@@ -62,5 +62,13 @@ public class Autor {
 
     public void setBooks(List<Book> bookList) {
         this.books = bookList;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

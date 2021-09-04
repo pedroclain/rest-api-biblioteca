@@ -1,33 +1,35 @@
-package com.example.restapibiblioteca.dto;
+package com.example.restapibiblioteca.dto.view;
 
 import com.example.restapibiblioteca.domain.Book;
+import com.example.restapibiblioteca.domain.Gender;
+import com.example.restapibiblioteca.dto.inner.InnerAutor;
+import com.example.restapibiblioteca.dto.inner.InnerGender;
+import com.example.restapibiblioteca.dto.inner.InnerPublisher;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 
 public class BookView implements Serializable {
 
     private Long id;
     private String name;
-    private String autorName;
-    private String genderName;
-    private String publisherName;
+    private InnerAutor autor;
+    private InnerGender gender;
+    private InnerPublisher publisher;
     private LocalDate publishDate;
 
 
     public BookView(Book book) {
         this.id = book.getId();
         this.name = book.getName();
-        this.autorName = book.getAutor().getName();
-        this.genderName = book.getGender().getName();
-        this.publisherName = book.getPublisher().getName();
+        this.autor = new InnerAutor(book.getAutor());
+        this.gender = new InnerGender(book.getGender());
+        this.publisher = new InnerPublisher(book.getPublisher());
         this.publishDate = book.getPublishDate();
     }
 
     public BookView(){}
-
 
     @Override
     public boolean equals(Object o) {
@@ -58,28 +60,28 @@ public class BookView implements Serializable {
         this.name = name;
     }
 
-    public String getAutorName() {
-        return autorName;
+    public InnerAutor getAutor() {
+        return autor;
     }
 
-    public void setAutorName(String autorName) {
-        this.autorName = autorName;
+    public void setAutor(InnerAutor autor) {
+        this.autor = autor;
     }
 
-    public String getGenderName() {
-        return genderName;
+    public InnerGender getGender() {
+        return gender;
     }
 
-    public void setGenderName(String genderName) {
-        this.genderName = genderName;
+    public void setGender(InnerGender gender) {
+        this.gender = gender;
     }
 
-    public String getPublisherName() {
-        return publisherName;
+    public InnerPublisher getPublisher() {
+        return publisher;
     }
 
-    public void setPublisherName(String publisherName) {
-        this.publisherName = publisherName;
+    public void setPublisher(InnerPublisher publisher) {
+        this.publisher = publisher;
     }
 
     public LocalDate getPublishDate() {
@@ -89,4 +91,5 @@ public class BookView implements Serializable {
     public void setPublishDate(LocalDate publishDate) {
         this.publishDate = publishDate;
     }
+
 }

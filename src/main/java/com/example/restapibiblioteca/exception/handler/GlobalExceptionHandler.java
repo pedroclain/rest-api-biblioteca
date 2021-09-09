@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +24,6 @@ import static java.util.Optional.ofNullable;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private final Logger logger = LogManager.getLogger();
-
     @ExceptionHandler(ResourceNotFound.class)
     public ResponseEntity<ExceptionDetails<?>> handleResourceNotFoundException(
             HttpServletRequest request, Exception ex) {
@@ -34,6 +33,8 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ExceptionDetails<>("Resource not found", List.of(ex.getMessage())));
     }
+
+    private final Logger logger = LogManager.getLogger();
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ExceptionDetails<String>> handleValidationException(HttpServletRequest request, ValidationException ex) {
         logger.error("handleValidationException{}\n", request.getRequestURI(), ex);
